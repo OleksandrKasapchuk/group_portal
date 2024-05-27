@@ -10,50 +10,75 @@
         <div class="form-group">
             <label for="id_title">Title:</label>
             {{ form.title }}
+            {% if form.title.errors %}
+                <div class="alert alert-danger">{{ form.title.errors }}</div>
+            {% endif %}
         </div>
-        <div class="form-group" style="display: flex; align-items: flex-start; margin-top: 10px;">
-            <label for="id_description" style="margin-right: 10px;">Description:</label>
-            <div style="flex: 1; margin-top: 10px;">
+        <div class="form-group mt-3">
+            <label for="id_description" class="form-label">Description:</label>
+            <div class="input-group">
                 {{ form.description }}
+                {% if form.description.errors %}
+                    <div class="alert alert-danger">{{ form.description.errors }}</div>
+                {% endif %}
             </div>
         </div>
-        <div class="form-group" style="margin-top: 20px;">
-            <label for="id_start_date">Start Date:</label>
+        <div class="form-group mt-3">
+            <label for="id_start_datetime">Start Date:</label>
             <div class="input-group date" id="start_date_picker">
-                {{ form.start_date }}
-                <div class="input-group-append">
-                    <span class="input-group-text"><i class="fa fa-calendar"></i></span>
-                </div>
+                {{ form.start_datetime }}
+                <button class="btn btn-outline-secondary" type="button">
+                    <i class="bi bi-calendar text-white"></i>
+                </button>
             </div>
+            {% if form.start_datetime.errors %}
+                <div class="alert alert-danger">{{ form.start_datetime.errors }}</div>
+            {% endif %}
         </div>
-        <div class="form-group" style="margin-top: 20px;">
-            <label for="id_end_date">End Date:</label>
+        <div class="form-group mt-3">
+            <label for="id_end_datetime">End Date:</label>
             <div class="input-group date" id="end_date_picker">
-                {{ form.end_date }}
-                <div class="input-group-append">
-                    <span class="input-group-text"><i class="fa fa-calendar"></i></span>
-                </div>
+                {{ form.end_datetime }}
+                <button class="btn btn-outline-secondary" type="button">
+                    <i class="bi bi-calendar text-white"></i>
+                </button>
             </div>
+            {% if form.end_datetime.errors %}
+                <div class="alert alert-danger">{{ form.end_datetime.errors }}</div>
+            {% endif %}
         </div>
-        <div class="form-group" style="margin-top: 20px;">
+        <div class="form-group mt-3">
             <label for="id_start_time">Start Time:</label>
             <div class="input-group bootstrap-timepicker timepicker">
-                <input id="start_time" type="text" class="form-control" name="start_time">
+                {{ form.start_time }}
                 <div class="input-group-append">
-                    <span class="input-group-text"><i class="bi bi-clock"></i></span>
+                    <span class="input-group-text"><i class="bi bi-clock text-white"></i></span>
                 </div>
             </div>
+            {% if form.start_time.errors %}
+                <div class="alert alert-danger">{{ form.start_time.errors }}</div>
+            {% endif %}
         </div>
-        <div class="form-group" style="margin-top: 20px;">
+        <div class="form-group mt-3">
             <label for="id_end_time">End Time:</label>
             <div class="input-group bootstrap-timepicker timepicker">
-                <input id="end_time" type="text" class="form-control" name="end_time">
+                {{ form.end_time }}
                 <div class="input-group-append">
-                    <span class="input-group-text"><i class="bi bi-clock"></i></span>
+                    <span class="input-group-text"><i class="bi bi-clock text-white"></i></span>
                 </div>
             </div>
+            {% if form.end_time.errors %}
+                <div class="alert alert-danger">{{ form.end_time.errors }}</div>
+            {% endif %}
         </div>
-        <button type="submit" class="btn btn-primary" style="margin-top: 20px;">Save</button>
+        <!-- Buttons outside the form -->
+        <div class="btn-toolbar" role="toolbar">
+            <div class="btn-group me-2" role="group" aria-label="Time buttons">
+                <button type="button" class="btn btn-primary" id="btn-start-time">Set Start Time</button>
+                <button type="button" class="btn btn-primary" id="btn-end-time">Set End Time</button>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary mt-3">Save</button>
     </form>
 </div>
 {% endblock %}
@@ -61,30 +86,65 @@
 {% block extra_scripts %}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-timepicker/0.5.2/css/bootstrap-timepicker.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-timepicker/0.5.2/js/bootstrap-timepicker.min.js"></script>
     <script>
-        $(document).ready(function(){
-            var today = new Date();
-                $('#start_date_picker').datepicker({
-    format: 'yyyy-mm-dd',
-    startDate: today,
-    autoclose: true,
-    todayHighlight: true
-}).datepicker('setDate', today);
+    $(document).ready(function(){
+        var today = new Date();
+        $('#start_date_picker').datepicker({
+            format: 'yyyy-mm-dd',
+            startDate: today,
+            autoclose: true,
+            todayHighlight: true
+        }).datepicker('setDate', today);
 
-$('#end_date_picker').datepicker({
-    format: 'yyyy-mm-dd',
-    startDate: today,
-    autoclose: true,
-    todayHighlight: true
-}).datepicker('setDate', today);
+        $('#end_date_picker').datepicker({
+            format: 'yyyy-mm-dd',
+            startDate: today,
+            autoclose: true,
+            todayHighlight: true
+        }).datepicker('setDate', today);
 
-$('#start_time, #end_time').timepicker({
-    showMeridian: false,
-    defaultTime: false
-});
-});
+        $('#start_time, #end_time').timepicker({
+            showMeridian: false,
+            defaultTime: false
+        });
+
+        $('#id_start_time, #id_end_time').on('input', function() {
+            var inputValue = $(this).val();
+            var sanitizedInput = '';
+            for (var i = 0; i < inputValue.length; i++) {
+                var char = inputValue[i];
+                if (!isNaN(char) || char === ':') {
+                    sanitizedInput += char;
+                }
+            }
+            $(this).val(sanitizedInput);
+        });
+
+        $('#start_time, #end_time').on('change', function() {
+            var value = $(this).val();
+            if (!/^\d{1,2}:\d{2}$/.test(value)) {
+                $(this).val('').focus();
+                alert('Please enter the time in HH:MM format.');
+            }
+        });
+
+        $('#btn-start-time').click(function() {
+            var now = new Date();
+            var hours = now.getHours().toString().padStart(2, '0');
+            var minutes = now.getMinutes().toString().padStart(2, '0');
+            $('#id_start_time').val(hours + ':' + minutes);
+        });
+
+        $('#btn-end-time').click(function() {
+            var now = new Date();
+            var hours = now.getHours().toString().padStart(2, '0');
+            var minutes = now.getMinutes().toString().padStart(2, '0');
+            $('#id_end_time').val(hours + ':' + minutes);
+        });
+    });
 </script>
 {% endblock %}

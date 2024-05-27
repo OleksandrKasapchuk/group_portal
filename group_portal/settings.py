@@ -47,7 +47,8 @@ INSTALLED_APPS = [
 	'gallery',
 	'auth_system',
 	'main_app',
-	'bootstrap4'
+	'bootstrap5',
+    'bootstrap_datepicker_plus',
 ]
 
 MIDDLEWARE = [

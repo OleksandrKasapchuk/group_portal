@@ -8,7 +8,7 @@ from django.template.loader import get_template
 
 class EventsViews(ListView):
     model = Event
-    template_name ='events/event_list.html'
+    template_name = 'events/event_list.html'
     context_object_name = 'events'
 
 def add_event(request):
@@ -28,6 +28,10 @@ def add_event(request):
 
 def event_list(request):
     events = Event.objects.all()
-    nearest_event = Event.nearest_event()
-    farthest_event = Event.farthest_event()
-    return render(request, 'events/event_list.html', {'events': events, 'nearest_event': nearest_event, 'farthest_event': farthest_event})
+    nearest_event = events.order_by('start_datetime').first() if events.exists() else None
+    farthest_event = events.order_by('-start_datetime').first() if events.exists() else None
+    return render(request, 'events/event_list.html', {
+        'events': events, 
+        'nearest_event': nearest_event, 
+        'farthest_event': farthest_event
+    })
