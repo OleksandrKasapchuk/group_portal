@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>{{ event.title }}</h1>
+    <p><strong>Title:</strong> {{ event.title }}</p>
+    <p><strong>Description:</strong> {{ event.description }}</p>
+    <p><strong>Start Date and Time:</strong> {{ event.start_datetime }}</p>
+    <p><strong>End Date and Time:</strong> {{ event.end_datetime }}</p>
+    
+
+    <a href="{% url 'edit_event' event.id %}" class="btn btn-secondary">Edit</a>
+    <form action="{% url 'delete_event' event.id %}" method="post" style="display:inline;">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Delete</button>
+    </form>
+{% endblock %}

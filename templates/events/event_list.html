@@ -5,14 +5,14 @@
 
     <h2>Nearest Event:</h2>
     {% if nearest_event %}
-        <p>{{ nearest_event.title }} - {{ nearest_event.start_datetime }}</p>
+        <p><a href="{% url 'event_detail' nearest_event.id %}">{{ nearest_event.title }}</a> - {{ nearest_event.start_datetime }}</p>
     {% else %}
         <p>No nearest event found.</p>
     {% endif %}
 
     <h2>Farthest Event:</h2>
     {% if farthest_event %}
-        <p>{{ farthest_event.title }} - {{ farthest_event.start_datetime }}</p>
+        <p><a href="{% url 'event_detail' farthest_event.id %}">{{ farthest_event.title }}</a> - {{ farthest_event.start_datetime }}</p>
     {% else %}
         <p>No farthest event found.</p>
     {% endif %}
@@ -20,7 +20,7 @@
     <h2>All Events:</h2>
     <ul>
         {% for event in events %}
-            <li>{{ event.title }} - {{ event.start_datetime }}</li>
+            <li><a href="{% url 'event_detail' event.id %}">{{ event.title }}</a> - {{ event.start_datetime }}</li>
         {% endfor %}
     </ul>
 

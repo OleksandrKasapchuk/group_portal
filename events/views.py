@@ -1,10 +1,9 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect,get_object_or_404
 from .models import Event
 from django.views.generic import ListView
 from .forms import EventForm
 from django.conf import settings
 from django.template.loader import get_template
-
 
 class EventsViews(ListView):
     model = Event
@@ -35,3 +34,25 @@ def event_list(request):
         'nearest_event': nearest_event, 
         'farthest_event': farthest_event
     })
+
+def edit_event(request, id):
+    event = get_object_or_404(Event, id=id)
+    if request.method == 'POST':
+        form = EventForm(request.POST, instance=event)
+        if form.is_valid():
+            form.save()
+            return redirect('event_detail', id=event.id)
+    else:
+        form = EventForm(instance=event)
+    return render(request, 'events/edit_event.html', {'form': form})
+
+def delete_event(request, id):
+    event = get_object_or_404(Event, id=id)
+    if request.method == 'POST':
+        event.delete()
+        return redirect('event_list')
+    return render(request, 'events/delete_event.html', {'event': event})
+
+def event_detail(request, id):
+    event = get_object_or_404(Event, id=id)
+    return render(request, 'events/event_detail.html', {'event': event})

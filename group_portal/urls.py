@@ -24,4 +24,7 @@ urlpatterns = [
 	path('', include('auth_system.urls')),
     path('events/',include('events.urls')),
     path('add-event/', views.add_event, name='add_event'),
+    path('event/<int:id>/', views.event_detail, name='event_detail'),
+    path('event/<int:id>/edit/', views.edit_event, name='edit_event'),
+    path('event/<int:id>/delete/', views.delete_event, name='delete_event'),
 ]
