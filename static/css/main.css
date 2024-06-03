@@ -40,3 +40,9 @@ label, input {
 	background: transparent;
 	color: white;
 }
+.user_infos {
+	list-style: none;
+}
+.user_infos li {
+	font-size: 24px;
+}
