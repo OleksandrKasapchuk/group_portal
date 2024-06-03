@@ -21,7 +21,7 @@ def register_user(request):
             new_user.save()
             user = authenticate(username=username, first_name=name, last_name=surname, email=email, password=password)
             login(request, user)
-
+            messages.success(request, ("You have been succesfully logged in"))
             return redirect("index")
         else:
             return render(request, "auth_system/register.html")
