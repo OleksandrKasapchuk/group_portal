@@ -1,4 +1,42 @@
 body {
 	font-family: 'Cormorant', sans;
-	background-color: gray;
+	background-color: #3a579b;
+	color: white;
+}
+.navbar {
+	background-color: #293f71 !important;
+}
+.navbar a {
+	color: white !important;
+	font-size: 24px;
+}
+.sbmt-btn {
+	margin-top: 10px;
+	width: 100px;
+	height: 40px;
+	background-color: #649bf5;
+	border-radius: 10px;
+	border: 0;
+}
+a {
+	color: #b7a84d;
+	font-size: 20px;
+}
+h1 {
+	font-size: 50px;
+}
+.full-screen {
+	height: 80vh ;
+}
+label, input {
+	font-size: 28px;
+}
+.form-input {
+	background: transparent;
+	color: white;
+	font-size: 24px;
+}
+.form-input:focus {
+	background: transparent;
+	color: white;
 }
