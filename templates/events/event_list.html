@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <style>
+        body {
+            background-color: #649bf5;
+        }
+        a {
+            color: rgb(189, 116, 116);
+        }
+    </style>
+
+    <h1>Event List:</h1>
+
+    <h2>Nearest Event:</h2>
+    {% if nearest_event %}
+        <p><a href="{% url 'event_detail' nearest_event.id %}">{{ nearest_event.title }}</a> - {{ nearest_event.start_datetime }}</p>
+    {% else %}
+        <p>No nearest event found.</p>
+    {% endif %}
+
+    <h2>Farthest Event:</h2>
+    {% if farthest_event %}
+        <p><a href="{% url 'event_detail' farthest_event.id %}">{{ farthest_event.title }}</a> - {{ farthest_event.start_datetime }}</p>
+    {% else %}
+        <p>No farthest event found.</p>
+    {% endif %}
+
+    <h2>All Events:</h2>
+    <ul>
+        {% for event in events %}
+            <li><a href="{% url 'event_detail' event.id %}">{{ event.title }}</a> - {{ event.start_datetime }}</li>
+        {% endfor %}
+    </ul>
+
+    {% if user.is_authenticated %}
+        {% if user.is_admin or user.is_moderator %}
+            <a href="{% url 'add_event' %}" class="btn btn-primary mt-3">Add Event</a>
+        {% endif %}
+    {% endif %}
+{% endblock %}

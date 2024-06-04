@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Event{% endblock %}
+
+{% block content %}
+<style>
+    body {
+        background-color: #649bf5;
+    }   
+    a {
+        color: rgb(189, 116, 116);
+    }
+</style>
+<div class="container mt-5">
+    <h2>Edit Event</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Save</button>
+        <a href="{% url 'event_list' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+{{ form.media }}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.39.0/css/tempusdominus-bootstrap-4.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.39.0/js/tempusdominus-bootstrap-4.min.js"></script>
+<script>
+        $(document).ready(function(){
+            $('#start_datetime_picker').datetimepicker({
+                format: 'YYYY-MM-DD HH:mm'
+            });
+
+            $('#end_datetime_picker').datetimepicker({
+                format: 'YYYY-MM-DD HH:mm',
+                useCurrent: false
+            });
+
+            $("#start_datetime_picker").on("change.datetimepicker", function (e) {
+                $('#end_datetime_picker').datetimepicker('minDate', e.date);
+            });
+
+            $("#end_datetime_picker").on("change.datetimepicker", function (e) {
+                $('#start_datetime_picker').datetimepicker('maxDate', e.date);
+            });
+        });
+    </script>
+{% endblock %}
