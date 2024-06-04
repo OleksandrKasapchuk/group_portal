@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+{% block title %}Add New Event{% endblock %}
+
+{% block content %}
+<style>
+    body {
+        background-color: #649bf5;
+    }   
+    a {
+        color: rgb(189, 116, 116);
+    }
+</style>
+
+<div class="container-fluid" style="padding-left: 0;">
+    <h1>Add New Event</h1>
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="id_title">Title:</label>
+            {{ form.title }}
+            {% if form.title.errors %}
+                <div class="alert alert-danger">{{ form.title.errors }}</div>
+            {% endif %}
+        </div>
+        <div class="form-group mt-3">
+            <label for="id_description" class="form-label">Description:</label>
+            <div class="input-group">
+                {{ form.description }}
+                {% if form.description.errors %}
+                    <div class="alert alert-danger">{{ form.description.errors }}</div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="form-group mt-3">
+            <label for="id_start_datetime">Start Date and Time:</label>
+            <div class="input-group date" id="start_datetime_picker">
+                {{ form.start_datetime }}
+            </div>
+            {% if form.start_datetime.errors %}
+                <div class="alert alert-danger">{{ form.start_datetime.errors }}</div>
+            {% endif %}
+        </div>
+        <div class="form-group mt-3">
+            <label for="id_end_datetime">End Date and Time:</label>
+            <div class="input-group date" id="end_datetime_picker">
+                {{ form.end_datetime }}
+            </div>
+            {% if form.end_datetime.errors %}
+                <div class="alert alert-danger">{{ form.end_datetime.errors }}</div>
+            {% endif %}
+        </div>
+        <button type="submit" class="btn btn-primary mt-3">Save</button>
+    </form>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+{{ form.media }}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.39.0/css/tempusdominus-bootstrap-4.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.39.0/js/tempusdominus-bootstrap-4.min.js"></script>
+<script>
+$(document).ready(function(){
+    $('#start_datetime_picker').datetimepicker({
+        format: 'YYYY-MM-DD HH:mm'
+    });
+
+    $('#end_datetime_picker').datetimepicker({
+        format: 'YYYY-MM-DD HH:mm',
+        useCurrent: false
+    });
+
+    $("#start_datetime_picker").on("change.datetimepicker", function (e) {
+        $('#end_datetime_picker').datetimepicker('minDate', e.date);
+    });
+
+    $("#end_datetime_picker").on("change.datetimepicker", function (e) {
+        $('#start_datetime_picker').datetimepicker('maxDate', e.date);
+    });
+});
+</script>
+{% endblock %}

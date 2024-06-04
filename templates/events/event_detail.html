@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    body {
+        background-color: #649bf5;
+    }   
+    a {
+        color: rgb(189, 116, 116);
+    }
+</style>
+    <h1>{{ event.title }}</h1>
+    <p><strong>Title:</strong> {{ event.title }}</p>
+    <p><strong>Description:</strong> {{ event.description }}</p>
+    <p><strong>Start Date and Time:</strong> {{ event.start_datetime }}</p>
+    <p><strong>End Date and Time:</strong> {{ event.end_datetime }}</p>
+    
+    <a href="{% url 'edit_event' event.id %}" class="btn btn-secondary">Edit</a>
+    <form action="{% url 'delete_event' event.id %}" method="post" style="display:inline;">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this event?')">Delete</button>
+    </form>
+{% endblock %}
