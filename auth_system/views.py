@@ -4,6 +4,7 @@ from django.contrib import messages
 from django.contrib.auth.hashers import check_password
 from django.contrib.auth import authenticate, login, logout
 from .models import CustomUser
+from django.contrib import messages
 
 
 def register_user(request):
@@ -104,15 +105,11 @@ def change_password(request, user_id):
                     user.set_password(new_password)
                     user.save()
                     login(request, user)
-                    messages.success(request, ("Password has been changed"))
+                    messages.success(request, "Password has been changed successfully")
+                    return redirect(f"/user-info/{user_id}")
                 else:
-                    messages.error(request, ("Passwords do not match"))
-                    return redirect(f'/change-password/{user_id}')
+                    messages.error(request, "New passwords do not match")
+                    return redirect(f"/change-password/{user_id}")
             else:
-                messages.error(request, ("Incorrect password"))
-                return redirect(f'/change-password/{user_id}')
-            return redirect(f"/user-info/{user_id}")
-        else:
-            return render(request, "auth_system/change_password.html")
-    else:
-        return HttpResponse ("Access denied", status=400)
+                messages.error(request, "Current password is incorrect")
+                return redirect(f"/change-password/{user_id}")

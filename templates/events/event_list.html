@@ -34,8 +34,12 @@
     </ul>
 
     {% if user.is_authenticated %}
-        {% if user.is_admin or user.is_moderator %}
-            <a href="{% url 'add_event' %}" class="btn btn-primary mt-3">Add Event</a>
-        {% endif %}
+    {% if user.is_admin or user.is_moderator %}
+        <a href="{% url 'add_event' %}" class="btn btn-primary mt-3">Add Event</a>
+    {% else %}
+        <p>You do not have permission to add events.</p>
     {% endif %}
+{% else %}
+    <p>Please log in to add events.</p>
+{% endif %}
 {% endblock %}
